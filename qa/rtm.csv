@@ -1,2 +1,9 @@
 story_id,ac_id,acceptance_criterion,test_case_id,feature_file,spec_file,priority,status,last_result,bug_ids
-US-0000,AC-1,Home page shows main heading,TC-0000-01,features/US-0000-example.feature,tests/smoke/example.spec.ts,P1,automated,,
+QA-1,AC-1,A new todo appears in the list and the counter updates,TC-QA-1-01,features/QA-1-manage-todos.feature,tests/e2e/todo.spec.ts,P1,automated,,
+QA-1,AC-2,Blank titles are not added,TC-QA-1-02,features/QA-1-manage-todos.feature,tests/e2e/todo.spec.ts,P2,automated,,
+QA-1,AC-3,Completing/reopening a todo updates the counter,TC-QA-1-03,features/QA-1-manage-todos.feature,tests/e2e/todo.spec.ts,P1,automated,,
+QA-1,AC-4,All/Active/Completed filters show matching items,TC-QA-1-04,features/QA-1-manage-todos.feature,tests/e2e/todo.spec.ts,P2,automated,,
+QA-2,AC-1,An existing post can be read,TC-QA-2-01,features/QA-2-posts-api.feature,tests/api/posts.api.spec.ts,P1,automated,,
+QA-2,AC-2,An unknown post returns 404,TC-QA-2-02,features/QA-2-posts-api.feature,tests/api/posts.api.spec.ts,P2,automated,,
+QA-2,AC-3,Posts can be filtered by user,TC-QA-2-03,features/QA-2-posts-api.feature,tests/api/posts.api.spec.ts,P2,automated,,
+QA-2,AC-4,A post can be created,TC-QA-2-04,features/QA-2-posts-api.feature,tests/api/posts.api.spec.ts,P1,automated,,

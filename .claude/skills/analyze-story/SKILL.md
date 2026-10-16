@@ -1,23 +1,23 @@
 ---
 name: analyze-story
-description: STLC Requirements Analysis – fetch an Azure DevOps user story, assess testability of its acceptance criteria, raise questions for the PO, identify risks, and seed the traceability matrix.
+description: STLC Requirements Analysis – fetch a Jira story (and linked Confluence requirements), assess testability of its acceptance criteria, raise questions for the PO, identify risks, and seed the traceability matrix.
 disable-model-invocation: true
-argument-hint: <work-item-id>
+argument-hint: <jira-key, e.g. QA-12>
 ---
 
-# Requirements Analysis for US-$ARGUMENTS
+# Requirements Analysis for $ARGUMENTS
 
-1. **Fetch** the work item with the Azure DevOps MCP (`wit_get_work_item`, expand relations), plus its comments (`wit_list_work_item_comments`), parent feature and linked items. If the MCP is unavailable, ask the user to paste the story.
-2. **Extract acceptance criteria** and number them `AC-1..n`. If ACs are missing or written as prose, propose a numbered rewrite and mark it *proposed*.
-3. **Testability review** – for each AC check:
-   - Clear, measurable expected result? (no "fast", "user-friendly", "etc.")
+1. **Fetch** the issue with the Atlassian MCP (`getJiraIssue`): summary, description, acceptance criteria (field or description section), status, sprint, priority, comments, issue links and the parent epic. Follow remote links to **Confluence** pages (`getConfluencePage`) for specs, mockups or business rules. If the MCP isn't connected, tell the user to authenticate it with `/mcp` or paste the story.
+2. **Extract acceptance criteria** and number them `AC-1..n`. If they are missing or written as prose, propose a numbered Given/When/Then rewrite and mark it *proposed*.
+3. **Testability review** – for each AC:
+   - Clear, measurable expected result? (no "fast", "intuitive", "etc.")
    - Inputs, roles/permissions, data states and boundaries specified?
    - Error/negative behaviour defined?
-   - Dependencies (APIs, other teams, feature flags, environments) known?
-   Also apply INVEST to the story as a whole.
-4. **Risk analysis** – list product risks with likelihood × impact (H/M/L) → suggested test priority P1–P3. Include non-functional risks (security/authz, performance, accessibility, data migration) only when relevant.
-5. **Write** `qa/stories/US-$ARGUMENTS.md` using the template in [template.md](template.md).
-6. **Update `qa/rtm.csv`**: one row per AC with `test_case_id` empty and `status=analysed`. Don't duplicate rows that already exist; update them.
-7. **Finish** with: the list of open questions for the PO (ready to paste into the ADO discussion or refinement), and whether the story is *Ready for test design* (no blocking questions) or *Blocked*.
+   - Dependencies known (APIs, feature flags, environments, other teams)?
+   Then apply INVEST to the story as a whole.
+4. **Risk analysis** – product risks with likelihood × impact (H/M/L) → test priority P1–P3. Add non-functional risks (security/authz, performance, accessibility, data) only where relevant.
+5. **Write** `qa/stories/$ARGUMENTS.md` from [template.md](template.md).
+6. **Update `qa/rtm.csv`**: one row per AC, `test_case_id` empty, `status=analysed`. Update existing rows rather than duplicating.
+7. **Finish** with the open questions for the PO and the verdict *Ready for test design* or *Blocked*. Offer to post the questions as a Jira comment (`addCommentToJiraIssue`) – show the exact text and wait for a yes.
 
-Do not invent business rules. Anything you assume goes under "Assumptions" and becomes a question.
+Do not invent business rules. Anything assumed goes under "Assumptions" and becomes a question.

@@ -1,6 +1,7 @@
-# US-<id> – <title>
+# <KEY> – <summary>
 
-- **ADO link**: <url> · **State**: <state> · **Sprint**: <iteration> · **Analysed**: <date>
+- **Jira**: <url> · **Status**: <status> · **Sprint**: <sprint> · **Epic**: <epic> · **Analysed**: <date>
+- **Requirement sources**: <Confluence page links>
 - **Verdict**: Ready for test design | Blocked
 
 ## Acceptance criteria
@@ -20,7 +21,7 @@
 | ... | H/M/L | H/M/L | P1/P2/P3 |
 
 ## Test scope
-- **In scope**: functional, API, UI, roles ...
+- **In scope**: ...
 - **Out of scope**: ...
 - **Test levels**: unit (dev) · API · E2E · exploratory
 - **Test data / environment needs**: ...

@@ -21,10 +21,11 @@ process.stdin.on('end', () => {
   if (/^tests\/.*\.spec\.ts$/.test(p)) {
     args = ['playwright', 'test', p, '--reporter=line'];
   } else if (/^features\/.*\.feature$/.test(p)) {
-    // Run the specs that carry this feature's story tag, if any are automated yet.
-    const tag = readFileSync(filePath, 'utf8').match(/@US-\d+/)?.[0];
+    // Run the specs that carry this feature's Jira story tag (e.g. @QA-1), if any are automated yet.
+    const tag = readFileSync(filePath, 'utf8').match(/@[A-Z][A-Z0-9]+-\d+\b/)?.[0];
     if (!tag) process.exit(0);
-    args = ['playwright', 'test', '--grep', tag, '--reporter=line', '--pass-with-no-tests'];
+    // \b stops @QA-1 from also matching @QA-10.
+    args = ['playwright', 'test', '--grep', `"${tag}\\b"`, '--reporter=line', '--pass-with-no-tests'];
   } else {
     process.exit(0);
   }

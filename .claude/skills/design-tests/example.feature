@@ -1,52 +1,48 @@
-@US-1234
-Feature: Candidate applies to a job offer
-  As a candidate
-  I want to apply to a published job offer
-  So that the recruiter receives my application
+@QA-1
+Feature: Manage todo items
+  As a busy person
+  I want to add and complete todo items
+  So that I keep track of what I still need to do
 
   Background:
-    Given a published job offer "Senior QA Engineer"
+    Given I open the todo app with an empty list
 
   # AC-1 · Technique: happy path
-  @TC-1234-01 @P1 @smoke
-  Scenario: Logged-in candidate applies with a complete profile
-    Given I am logged in as a candidate with a complete profile
-    When I apply to the job offer
-    Then my application is recorded with status "Submitted"
-    And the recruiter is notified
+  @TC-QA-1-01 @P1 @smoke
+  Scenario: Add a todo item
+    When I add the todo "Buy milk"
+    Then the list shows "Buy milk"
+    And the counter shows "1 item left"
 
-  # AC-2 · Technique: boundary value analysis on cover letter length (max 2000 chars)
-  @TC-1234-02 @P2 @regression
-  Scenario Outline: Cover letter length limits
-    Given I am logged in as a candidate with a complete profile
-    When I apply with a cover letter of <length> characters
-    Then the application is <outcome>
+  # AC-2 · Technique: equivalence partitioning (invalid class: blank titles)
+  @TC-QA-1-02 @P2 @regression
+  Scenario Outline: Blank titles are not added
+    When I add the todo "<title>"
+    Then the list is empty
 
     Examples:
-      | length | outcome                         |
-      | 0      | accepted                        |
-      | 1999   | accepted                        |
-      | 2000   | accepted                        |
-      | 2001   | rejected with "Cover letter too long" |
+      | title |
+      |       |
+      |       |
 
-  # AC-3 · Technique: decision table (profile complete × offer state)
-  @TC-1234-03 @P1 @regression
-  Scenario Outline: Application is only allowed on a published offer with a complete profile
-    Given I am logged in as a candidate whose profile is <profile>
-    And the job offer is <offer_state>
-    When I try to apply
-    Then I see <result>
+  # AC-3 · Technique: state transition (active → completed → active)
+  @TC-QA-1-03 @P1 @regression
+  Scenario: Completing and reopening a todo updates the counter
+    Given the list contains "Buy milk" and "Walk the dog"
+    When I mark "Buy milk" as completed
+    Then the counter shows "1 item left"
+    When I mark "Buy milk" as active again
+    Then the counter shows "2 items left"
+
+  # AC-4 · Technique: decision table (filter × item state)
+  @TC-QA-1-04 @P2 @regression
+  Scenario Outline: Filters show only matching items
+    Given "Buy milk" is completed and "Walk the dog" is active
+    When I choose the "<filter>" filter
+    Then I see only <visible>
 
     Examples:
-      | profile    | offer_state | result                          |
-      | complete   | published   | the application confirmation    |
-      | incomplete | published   | "Complete your profile first"   |
-      | complete   | closed      | "This offer is no longer open"  |
-      | incomplete | closed      | "This offer is no longer open"  |
-
-  # AC-4 · Technique: roles/permissions (negative)
-  @TC-1234-04 @P1 @regression
-  Scenario: A recruiter cannot apply to a job offer
-    Given I am logged in as a recruiter
-    When I try to apply to the job offer
-    Then the request is denied with 403
+      | filter    | visible                      |
+      | All       | "Buy milk" and "Walk the dog" |
+      | Active    | "Walk the dog"               |
+      | Completed | "Buy milk"                   |

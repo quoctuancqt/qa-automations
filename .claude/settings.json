@@ -5,10 +5,15 @@
       "Bash(npm test:*)",
       "Bash(npm run test:*)",
       "Bash(npm run typecheck)",
-      "mcp__appinsights-failures__get_failures_summary",
-      "mcp__appinsights-failures__list_failed_requests",
-      "mcp__appinsights-failures__list_top_exceptions",
-      "mcp__appinsights-failures__get_operation_details"
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)"
+    ],
+    "ask": [
+      "Bash(gh run download:*)",
+      "Bash(gh pr comment:*)",
+      "Bash(gh issue create:*)"
     ],
     "deny": [
       "Read(./.env)",
@@ -16,7 +21,7 @@
       "Read(./playwright/.auth/**)"
     ]
   },
-  "enabledMcpjsonServers": ["playwright"],
+  "enabledMcpjsonServers": ["playwright", "atlassian", "github"],
   "hooks": {
     "PreToolUse": [
       {
