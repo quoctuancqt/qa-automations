@@ -1,0 +1,8 @@
+node_modules/
+.env
+reports/html/
+reports/artifacts/
+reports/*.xml
+reports/*.json
+playwright/.auth/
+.claude/settings.local.json

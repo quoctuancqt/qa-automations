@@ -1,0 +1,2 @@
+story_id,ac_id,acceptance_criterion,test_case_id,feature_file,spec_file,priority,status,last_result,bug_ids
+US-0000,AC-1,Home page shows main heading,TC-0000-01,features/US-0000-example.feature,tests/smoke/example.spec.ts,P1,automated,,

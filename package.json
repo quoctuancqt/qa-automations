@@ -1,0 +1,20 @@
+{
+  "name": "qa-automation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agile QA automation following the STLC: requirements → plan → design → execution → analysis → reporting → fixing → closure",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:story": "playwright test --grep",
+    "report": "playwright show-report reports/html",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.0.0",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.6.0"
+  }
+}

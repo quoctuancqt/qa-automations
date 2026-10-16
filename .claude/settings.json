@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx playwright test:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run typecheck)",
+      "mcp__appinsights-failures__get_failures_summary",
+      "mcp__appinsights-failures__list_failed_requests",
+      "mcp__appinsights-failures__list_top_exceptions",
+      "mcp__appinsights-failures__get_operation_details"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./playwright/.auth/**)"
+    ]
+  },
+  "enabledMcpjsonServers": ["playwright"],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/protect-files.mjs\"" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/run-related-test.mjs\"", "timeout": 180 }
+        ]
+      }
+    ]
+  }
+}
